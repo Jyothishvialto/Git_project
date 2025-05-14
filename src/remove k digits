@@ -1,0 +1,41 @@
+//removee k digits and return smallest value   // 
+
+class Solution {
+    static removeKdigits(num, k) {
+      const stack = [];
+  
+      // Process each digit in the number
+      for (const digit of num) {
+        // Remove digits from stack if the current digit is smaller
+        // than the one at the top of the stack and we still have digits to remove
+        while (k > 0 && stack.length > 0 && stack[stack.length - 1] > digit) {
+          stack.pop();
+          k--;
+        }
+  
+        // Add the current digit to the stack
+        stack.push(digit);       // 1,2,1   k=1
+      }
+  
+      // If there are still digits to remove, remove from the end
+      while (k > 0) {
+        stack.pop();
+        k--;
+      }
+  
+      // Convert stack back to a string and manually remove leading zeros
+      let result = stack.join('');      //00045
+      
+      // Remove leading zeros manually
+      let i = 0;
+      while (i < result.length && result[i] === '0') {
+        i++;
+      }
+  
+      result = result.slice(i);  // Slice out the leading zeros
+  
+      // If the result is empty, return "0"
+      return result
+    }
+  }
+  console.log(Solution.removeKdigits("143221959", 5));  // Output: "1219"
